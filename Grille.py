@@ -1,27 +1,48 @@
 import threading
-from Agent import Agent
+from Agent import *
 
-class Grille(object):
+class Grille:
 
 	"""docstring for Grille"""
 	def __init__(self, size):
 		super(Grille, self).__init__()
-		self.__size = size
-		self.__grid = [[0]*size]*size
-		self.__agents = []
+		self.__size__ = size
+		self.__grid__ = [[0 for i in range(size)] for j in range(size)]
 		self.grid_lock = threading.Lock()
+		self.__agents__ = []
 
-	def move_agent(agent, down, right):
-		assert down <= 0 and down >= -1 and right <= 1 and right >= -1
+	def move_agent(self,agent, down, right):
+		assert down <= 1 and down >= -1 and right <= 1 and right >= -1
 		self.grid_lock.acquire()
-		if self.grid[self.__agents[agent.id-1].row + down][self.__agents[agent.id-1].col + right] == 0:
-			self.__agents[agent.id-1].row += down
-			self.__agents[agent.id-1].col += right
+		if self.__grid__[agent.row + down][agent.col + right] == 0:
+			self.__grid__[agent.row][agent.col] = 0
+			agent.row += down
+			agent.col += right
+			self.__grid__[agent.row][agent.col] = agent.id	
+			print("Agent "+str(agent.id)+" moved")
+			self.__show__()
 		self.grid_lock.release()
 
+	def isTerminal(self):
+		over = True
+		for a in self.__agents:
+			over &= a.isTerminal()
+		return over
+
+	def registerNewAgent(self,agent):
+		if self.__grid__[agent.row][agent.col] == 0 :
+			if agent not in self.__agents__:
+				self.__agents__.append(agent)
+				self.__grid__[agent.row][agent.col] = agent.id
+			else:
+				print("Agent already registered")
+		else:
+			print("Can't add Agent, this place is already occuped")
+
 	def __show__(self):
-		for x in range(self.__size):
+		for x in range(self.__size__):
 			print("| ", end="")
-			for y in range(self.__size):
-				print(str(self.__grid[x][y])+" ",end="")
+			for y in range(self.__size__):
+				print(str(self.__grid__[x][y])+" ",end="")
 			print("|")
+		print("")
