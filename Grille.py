@@ -11,7 +11,8 @@ class Grille:
 		self.grid_lock = threading.Lock()
 		self.__agents__ = []
 
-	def move_agent(self,agent, down, right):
+	def move_agent(self, agent, down, right):
+		retour = 0
 		assert down <= 1 and down >= -1 and right <= 1 and right >= -1
 		self.grid_lock.acquire()
 		if self.__grid__[agent.row + down][agent.col + right] == 0:
@@ -21,11 +22,14 @@ class Grille:
 			self.__grid__[agent.row][agent.col] = agent.id	
 			print("Agent "+str(agent.id)+" moved")
 			self.__show__()
+		else:
+			retour = self.__grid__[agent.row + down][agent.col + right]
 		self.grid_lock.release()
+		return retour
 
 	def isTerminal(self):
 		over = True
-		for a in self.__agents:
+		for a in self.__agents__:
 			over &= a.isTerminal()
 		return over
 
