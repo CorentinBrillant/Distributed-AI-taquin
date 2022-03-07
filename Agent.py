@@ -1,4 +1,5 @@
 import threading
+import time
 from Grille import *
 from Message import *
 
@@ -32,10 +33,12 @@ class Agent(threading.Thread):
 
 	def run(self):
 		while not self.gameIsOver():
-			if len(self.mail_box[self.agent_id]) > 0:
-				mail = self.mail_box[self.agent_id].pop(0)
-				print("agent "+str(self.agent_id)+" :> mail received from "+str(mail.sender))
-				if (mail.dest == self.agent_id) and (mail.content[0]==self.row and mail.content[1]==self.col):
+			time.sleep(2)
+			print("Hello from agent :"+str(self.id))
+			if len(self.mail_box[self.id]) > 0:
+				mail = self.mail_box[self.id].pop(0)
+				print("agent "+str(self.id)+" :> mail received from "+str(mail.sender))
+				if (mail.dest == self.id) and (mail.content[0]==self.row and mail.content[1]==self.col):
 					if self.__grid.move_agent(self, 1, 0) != 0:
 						if self.__grid.move_agent(self, -1, 0) != 0:
 							if self.__grid.move_agent(self, 0, 1) != 0:
@@ -44,7 +47,7 @@ class Agent(threading.Thread):
 				down = (((self.__f_row - self.row) > 0)*2 - 1)*(self.row != self.__f_row)
 				right = (((((self.__f_row - self.row) > 0)*2 - 1)*(self.row != self.__f_row))==0)*(((self.__f_col - self.col) > 0)*2 - 1)*(self.col != self.__f_col)
 				move_response = self.__grid.move_agent(self, down, right)
-				if move_response != 0:
-					self.mail_box[move_response].append(Message(self.agent_id, move_response, [self.row + down, self.col + right]))
-					print("agent "+str(self.agent_id)+" :> to agent "+str(move_response)+" : move from "+str(self.row + down)+","+str(self.col + right))
+				if move_response > 0:
+					self.mail_box[move_response].append(Message(self.id, move_response, [self.row + down, self.col + right]))
+					print("agent "+str(self.id)+" :> to agent "+str(move_response)+" : move from "+str(self.row + down)+","+str(self.col + right))
 			pass

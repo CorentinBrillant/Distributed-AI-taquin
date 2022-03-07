@@ -15,7 +15,9 @@ class Grille:
 		retour = 0
 		assert down <= 1 and down >= -1 and right <= 1 and right >= -1
 		self.grid_lock.acquire()
-		if self.__grid__[agent.row + down][agent.col + right] == 0:
+		if (agent.row + down)<0 or (agent.row + down)>=len(self.__grid__) or (agent.col + right)<0 or (agent.col + right)>=len(self.__grid__[0]):
+			retour = -1
+		elif self.__grid__[agent.row + down][agent.col + right] == 0:
 			self.__grid__[agent.row][agent.col] = 0
 			agent.row += down
 			agent.col += right

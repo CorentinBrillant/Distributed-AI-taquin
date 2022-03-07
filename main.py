@@ -9,7 +9,7 @@ if __name__ == '__main__':
 	mail_box = [[],[],[]]
 	# agent_1 = Agent(1,1,4,4,grid, mail_box)
 	# agent_2 = Agent(0,0,3,4,grid, mail_box)
-	agent_1 = Agent(1,1,3,5,grid, mail_box)
+	agent_1 = Agent(1,1,3,3,grid, mail_box)
 	agent_2 = Agent(0,0,3,4,grid, mail_box)
 	agent_1.start()
 	agent_2.start()
