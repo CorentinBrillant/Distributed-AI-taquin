@@ -23,7 +23,7 @@ class Grille:
 			agent.col += right
 			self.__grid__[agent.row][agent.col] = agent.id	
 			print("Agent "+str(agent.id)+" moved")
-			self.__show__()
+			#self.__show__()
 		else:
 			retour = self.__grid__[agent.row + down][agent.col + right]
 		self.grid_lock.release()
