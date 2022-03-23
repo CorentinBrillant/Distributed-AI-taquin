@@ -47,8 +47,8 @@ class Grille:
 
 	def __show__(self):
 		for x in range(self.__size__):
-			print("| ", end="")
+			print("|\t", end="")
 			for y in range(self.__size__):
-				print(str(self.__grid__[x][y])+" ",end="")
+				print(str(self.__grid__[x][y])+"\t",end="")
 			print("|")
 		print("")

@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	n = 5
 	grid = Grille(n)
 
-	nb_agents = 15
+	nb_agents = 20
 
 	mail_box, agents, obj = randomAgentsGenerator(grid, nb_agents)
 
@@ -41,9 +41,9 @@ if __name__ == '__main__':
 	print("Objective : \n")
 
 	for x in range(len(obj)):
-		print("| ", end="")
+		print("|\t", end="")
 		for y in range(len(obj)):
-			print(str(obj[x][y])+" ",end="")
+			print(str(obj[x][y])+"\t",end="")
 		print("|")
 	print("")
 

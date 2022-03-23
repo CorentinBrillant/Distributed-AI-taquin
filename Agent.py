@@ -66,7 +66,7 @@ class Agent(threading.Thread):
 		move_response = self.__grid.move_agent(self, my_best_way[0], my_best_way[1])
 		if move_response != 0:
 			self.mail_box[move_response].append(Message(self.id, move_response, [self.row + my_best_way[0], self.col + my_best_way[1]], self.priority))
-			print("agent "+str(self.id)+" :> to agent "+str(move_response)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
+			#print("agent "+str(self.id)+" :> to agent "+str(move_response)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
 		return move_response
 
 	def run(self):
@@ -86,7 +86,7 @@ class Agent(threading.Thread):
 				if mail.priority >= self.priority:
 					#try to move
 					ans = 1
-					print("agent "+str(self.id)+" :> mail received from "+str(mail.sender))
+					#print("agent "+str(self.id)+" :> mail received from "+str(mail.sender))
 					if (mail.dest == self.id) and (mail.content[0]==self.row and mail.content[1]==self.col):
 						ans = self.__grid.move_agent(self, 1, 0)
 						if ans != 0:
@@ -97,8 +97,9 @@ class Agent(threading.Thread):
 									ans = self.__grid.move_agent(self, 0, -1)
 									if  ans != 0:
 										if not self.isTerminal()  and len(my_best_way)>0:
+											ans = self.__grid.move_agent(self, my_best_way[0], my_best_way[1])
 											self.mail_box[ans].append(Message(self.id, ans, [self.row + my_best_way[0], self.col + my_best_way[1]], mail.priority))
-											print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
+											#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
 										else:
 											down = 0
 											right = 0
@@ -106,8 +107,9 @@ class Agent(threading.Thread):
 												down = (self.row >= self.__grid.__size__-1)*(-1)+(self.row < self.__grid.__size__-1)
 											else:
 												right = (self.col >= self.__grid.__size__-1)*(-1)+(self.col < self.__grid.__size__-1)
+											ans = self.__grid.move_agent(self, down, right)
 											self.mail_box[ans].append(Message(self.id, ans, [self.row + down, self.col + right], mail.priority))
-											print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))
+											#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))
 										
 					#if we can move, mail goes to the ben
 					if ans == 0:
