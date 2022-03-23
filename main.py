@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	n = 5
 	grid = Grille(n)
 
-	nb_agents = 20
+	nb_agents = 24
 
 	mail_box, agents, obj = randomAgentsGenerator(grid, nb_agents)
 

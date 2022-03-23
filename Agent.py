@@ -27,7 +27,7 @@ class Agent(threading.Thread):
 	def compute_priority(self):
 		for k in range(self.__grid.__size__):
 			if (self.__f_col == k or self.__f_col == self.__grid.__size__-1-k or self.__f_row == k or self.__f_row == self.__grid.__size__-1-k) and self.priority==-1:
-				self.priority = (self.__grid.__size__-k)*10 + 0.01*self.id
+				self.priority = (self.__grid.__size__-k)*10
 
 	def __move__( self, down, right):
 		assert down <= 0 and down >= -1 and right <= 1 and right >= -1
@@ -98,8 +98,9 @@ class Agent(threading.Thread):
 									if  ans != 0:
 										if not self.isTerminal()  and len(my_best_way)>0:
 											ans = self.__grid.move_agent(self, my_best_way[0], my_best_way[1])
-											self.mail_box[ans].append(Message(self.id, ans, [self.row + my_best_way[0], self.col + my_best_way[1]], mail.priority))
-											#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
+											if ans != 0:
+												self.mail_box[ans].append(Message(self.id, ans, [self.row + my_best_way[0], self.col + my_best_way[1]], mail.priority))
+												#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + my_best_way[0])+","+str(self.col + my_best_way[1]))
 										else:
 											down = 0
 											right = 0
@@ -108,8 +109,9 @@ class Agent(threading.Thread):
 											else:
 												right = (self.col >= self.__grid.__size__-1)*(-1)+(self.col < self.__grid.__size__-1)
 											ans = self.__grid.move_agent(self, down, right)
-											self.mail_box[ans].append(Message(self.id, ans, [self.row + down, self.col + right], mail.priority))
-											#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))
+											if ans != 0:
+												self.mail_box[ans].append(Message(self.id, ans, [self.row + down, self.col + right], mail.priority))
+												#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))
 										
 					#if we can move, mail goes to the ben
 					if ans == 0:
