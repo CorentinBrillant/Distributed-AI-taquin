@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	n = 5
 	grid = Grille(n)
 
-	nb_agents = 24
+	nb_agents = 15
 
 	mail_box, agents, obj = randomAgentsGenerator(grid, nb_agents)
 
@@ -48,6 +48,7 @@ if __name__ == '__main__':
 	print("")
 
 	time.sleep(5)
+	start_time = time.time()
 	for i in range(len(agents)):
 		agents[i].start()
 
@@ -77,3 +78,4 @@ if __name__ == '__main__':
 			for mail in box:
 				print(mail.toString())
 		grid.__show__()
+	print("--- %s seconds ---" % (time.time() - start_time))

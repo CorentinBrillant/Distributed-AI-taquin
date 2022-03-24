@@ -71,15 +71,17 @@ class Agent(threading.Thread):
 
 	def run(self):
 		while not self.gameIsOver():
+
 			time.sleep(2)
-			#print("Hello from agent :"+str(self.id))
 			mail_rank = self.getMostUrgentMail()
 			my_best_way =[]
+
 			if not self.isTerminal():
 				adapted_grid = [[0 if (i==0) or (self.__grid.__agents__[i-1].priority <= self.priority) else 1 for i in gridy ] for gridy in self.__grid.__grid__]
 				my_way = star([self.row, self.col],[self.__f_row, self.__f_col], adapted_grid)[2]
 				if len(my_way)>0:
 					my_best_way = my_way[0]
+
 			#if we got an mail
 			if mail_rank > -1:
 				mail = self.mail_box[self.id][mail_rank]
@@ -111,8 +113,7 @@ class Agent(threading.Thread):
 											ans = self.__grid.move_agent(self, down, right)
 											if ans != 0:
 												self.mail_box[ans].append(Message(self.id, ans, [self.row + down, self.col + right], mail.priority))
-												#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))
-										
+												#print("agent "+str(self.id)+" :> to agent "+str(ans)+" : move from "+str(self.row + down)+","+str(self.col + right))					
 					#if we can move, mail goes to the ben
 					if ans == 0:
 						self.mail_box[self.id].pop(mail_rank)
